@@ -13,19 +13,24 @@ async def on_ready():
     print(f'تمت مزامنة {len(synced)} أمر سلاش.')
     print(f'البوت {bot.user.name} جاهز!')
 
-# أمر السلاش لدخول البوت (للمسؤولين فقط)
 @bot.tree.command(name="join", description="يجعل البوت يدخل للروم الصوتي")
 @app_commands.checks.has_permissions(administrator=True)
 async def join(interaction: discord.Interaction):
+    # إرسال رد فوري لتجنب خطأ عدم الاستجابة
+    await interaction.response.defer(ephemeral=True) 
+    
     channel_id = 1207652837463425054 
     channel = bot.get_channel(channel_id)
     
     if channel:
-        voice_client = await channel.connect()
-        await voice_client.edit(mute=True)
-        await interaction.response.send_message("تم تشغيل البوت ودخوله للروم.")
+        try:
+            voice_client = await channel.connect()
+            await voice_client.edit(mute=True)
+            await interaction.followup.send("تم تشغيل البوت ودخوله للروم.")
+        except Exception as e:
+            await interaction.followup.send(f"حدث خطأ أثناء الدخول: {e}")
     else:
-        await interaction.response.send_message("لم أجد الروم الصوتي!")
+        await interaction.followup.send("لم أجد الروم الصوتي!")
 
 # أمر السلاش لخروج البوت (للمسؤولين فقط)
 @bot.tree.command(name="leave", description="يجعل البوت يخرج من الروم الصوتي")
