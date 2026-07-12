@@ -27,7 +27,7 @@ async def join(interaction: discord.Interaction):
             # محاولة الاتصال بالروم
             voice_client = await channel.connect()
             await voice_client.edit(mute=True)
-            await interaction.followup.send("تم تشغيل البوت ودخوله للروم.")
+            await interaction.followup.send("تم تشغيل البوت ودخوله للروم الصوتي.")
         except Exception as e:
             await interaction.followup.send(f"حدث خطأ أثناء الدخول: {e}")
     else:
@@ -39,9 +39,9 @@ async def leave(interaction: discord.Interaction):
     await interaction.response.defer(ephemeral=True)
     if interaction.guild.voice_client:
         await interaction.guild.voice_client.disconnect()
-        await interaction.followup.send("تم إيقاف البوت وخروجه من الروم.")
+        await interaction.followup.send("تم إيقاف البوت وخروجه من الروم الصوتي.")
     else:
-        await interaction.followup.send("البوت ليس موجوداً في أي روم حالياً.")
+        await interaction.followup.send("البوت ليس موجوداً في أي روم صوتي حالياً.")
 
 @bot.tree.error
 async def on_app_command_error(interaction: discord.Interaction, error: app_commands.AppCommandError):
