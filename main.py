@@ -3,12 +3,18 @@ import os
 from discord import app_commands
 from discord.ext import commands
 
-# تفعيل جميع الـ Intents المطلوبة لتجنب مشاكل الأذونات
+# تفعيل الأذونات المطلوبة
 intents = discord.Intents.default()
 intents.message_content = True
 intents.voice_states = True
 
-bot = commands.Bot(command_prefix="!", intents=intents)
+# تعريف البوت مع إعدادات زيادة وقت انتظار النبضات لتجنب الانقطاع
+bot = commands.Bot(
+    command_prefix="!", 
+    intents=intents,
+    shard_count=1,
+    heartbeat_timeout=150.0  # زيادة وقت انتظار النبضات لتجنب الانقطاع المفاجئ
+)
 
 @bot.event
 async def on_ready():
