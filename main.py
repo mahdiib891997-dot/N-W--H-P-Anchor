@@ -28,7 +28,7 @@ async def join(interaction: discord.Interaction):
     # رد فوري لتجنب خطأ عدم الاستجابة
     await interaction.response.defer(ephemeral=True)
 
-    channel_id = 1207652837463425054
+    channel_id = 1207653737280307250
     channel = bot.get_channel(channel_id)
 
     if channel:
