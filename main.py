@@ -13,7 +13,7 @@ bot = commands.Bot(
     command_prefix="!", 
     intents=intents,
     shard_count=1,
-    heartbeat_timeout=150.0  # زيادة وقت انتظار النبضات لتجنب الانقطاع المفاجئ
+    heartbeat_timeout=150.0 
 )
 
 @bot.event
@@ -33,9 +33,9 @@ async def join(interaction: discord.Interaction):
 
     if channel:
         try:
-            # محاولة الاتصال بالروم
-            voice_client = await channel.connect()
-            await interaction.followup.send("تم تشغيل البوت ودخوله للروم الصوتي.")
+            # هنا التعديل: أضفنا self_deaf=True لجعل البوت "أصم" تلقائياً
+            voice_client = await channel.connect(self_deaf=True)
+            await interaction.followup.send("تم تشغيل البوت ودخوله للروم الصوتي (بوضع الصامت).")
         except Exception as e:
             await interaction.followup.send(f"حدث خطأ أثناء الدخول: {e}")
     else:
