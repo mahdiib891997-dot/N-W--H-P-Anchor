@@ -72,7 +72,7 @@ async def join(interaction: discord.Interaction):
                 await interaction.guild.voice_client.disconnect()
             
             voice_client = await channel.connect(self_deaf=True)
-            await interaction.followup.send("تم تشغيل البوت ودخوله للروم الصوتي بنجاح (بوضع الصامت).")
+            await interaction.followup.send("تم تشغيل البوت ودخوله للروم الصوتي بنجاح (بوضع الصامت).✅")
         except Exception as e:
             await interaction.followup.send(f"حدث خطأ أثناء الدخول: {e}")
     else:
@@ -84,12 +84,12 @@ async def leave(interaction: discord.Interaction):
     await interaction.response.defer(ephemeral=True)
     if interaction.guild.voice_client:
         await interaction.guild.voice_client.disconnect()
-        await interaction.followup.send("تم إيقاف البوت وخروجه من الروم الصوتي.")
+        await interaction.followup.send("تم إيقاف البوت وخروجه من الروم الصوتي.🛑")
     else:
-        await interaction.followup.send("البوت ليس موجوداً في أي روم صوتي حالياً.")
+        await interaction.followup.send("البوت ليس موجوداً في أي روم صوتي حالياً.❌")
 
 # أمر جديد لمعرفة كم ساعة قضى البوت في الروم بدون أن تضيع أبداً
-@bot.tree.command(name="hours", description="يعرض عدد الساعات الإجمالية التي قضاها البوت بالروم")
+@bot.tree.command(name="hours-tracked", description="يعرض عدد الساعات الإجمالية التي قضاها البوت بالروم")
 async def hours_command(interaction: discord.Interaction):
     current_hours = load_hours()
     await interaction.response.send_message(f"⏱️ إجمالي الساعات التي قضاها البوت في الروم الصوتي: **{round(current_hours, 2)}** ساعة.", ephemeral=False)
