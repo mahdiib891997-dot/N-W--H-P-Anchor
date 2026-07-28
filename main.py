@@ -58,7 +58,7 @@ async def on_ready():
     if not is_tracking:
         bot.loop.create_task(track_voice_time())
 
-@bot.tree.command(name="join", description="يجعل البوت يدخل للروم الصوتي ويستقر فيه")
+@bot.tree.command(name="join voice", description="يجعل البوت يدخل للروم الصوتي ويستقر فيه")
 @app_commands.checks.has_permissions(administrator=True)
 async def join(interaction: discord.Interaction):
     await interaction.response.defer(ephemeral=True)
@@ -78,7 +78,7 @@ async def join(interaction: discord.Interaction):
     else:
         await interaction.followup.send("لم أجد الروم الصوتي! تأكد من الـ ID.")
 
-@bot.tree.command(name="leave", description="يجعل البوت يخرج من الروم الصوتي")
+@bot.tree.command(name="leave voice", description="يجعل البوت يخرج من الروم الصوتي")
 @app_commands.checks.has_permissions(administrator=True)
 async def leave(interaction: discord.Interaction):
     await interaction.response.defer(ephemeral=True)
