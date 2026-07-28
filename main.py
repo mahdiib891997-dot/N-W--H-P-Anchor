@@ -58,12 +58,12 @@ async def on_ready():
     if not is_tracking:
         bot.loop.create_task(track_voice_time())
 
-@bot.tree.command(name="join voice", description="يجعل البوت يدخل للروم الصوتي ويستقر فيه")
+@bot.tree.command(name="join", description="يجعل البوت يدخل للروم الصوتي ويستقر فيه")
 @app_commands.checks.has_permissions(administrator=True)
 async def join(interaction: discord.Interaction):
     await interaction.response.defer(ephemeral=True)
 
-    channel_id = 1207652837463425054
+    channel_id = 1207653737280307250
     channel = bot.get_channel(channel_id)
 
     if channel:
@@ -72,13 +72,13 @@ async def join(interaction: discord.Interaction):
                 await interaction.guild.voice_client.disconnect()
             
             voice_client = await channel.connect(self_deaf=True)
-            await interaction.followup.send("تم تشغيل البوت ودخوله للروم الصوتي بنجاح✅ (بوضع الصامت).")
+            await interaction.followup.send("تم تشغيل البوت ودخوله للروم الصوتي بنجاح (بوضع الصامت).")
         except Exception as e:
             await interaction.followup.send(f"حدث خطأ أثناء الدخول: {e}")
     else:
         await interaction.followup.send("لم أجد الروم الصوتي! تأكد من الـ ID.")
 
-@bot.tree.command(name="leave voice", description="يجعل البوت يخرج من الروم الصوتي")
+@bot.tree.command(name="leave", description="يجعل البوت يخرج من الروم الصوتي")
 @app_commands.checks.has_permissions(administrator=True)
 async def leave(interaction: discord.Interaction):
     await interaction.response.defer(ephemeral=True)
