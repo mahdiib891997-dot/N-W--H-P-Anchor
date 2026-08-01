@@ -46,7 +46,7 @@ async def track_voice_time():
         connected = any(guild.voice_client is not None for guild in bot.guilds)
         if connected:
             total_hours += 1 / 60.0 # إضافة دقيقة محسوبة بالساعات
-            save_hours(total_hours) # حفظها فوراً في الملف لكي لا تضيع أبداً
+            save_hours(total_hours) # حفظها فوراً في الملف
 
 @bot.event
 async def on_ready():
@@ -58,12 +58,12 @@ async def on_ready():
     if not is_tracking:
         bot.loop.create_task(track_voice_time())
 
-@bot.tree.command(name="join-voice", description="يجعل البوت يدخل للروم الصوتي ويستقر فيه")
+@bot.tree.command(name="join_voice", description="يجعل البوت يدخل للروم الصوتي ويستقر فيه")
 @app_commands.checks.has_permissions(administrator=True)
-async def join(interaction: discord.Interaction):
+async def join_voice(interaction: discord.Interaction):
     await interaction.response.defer(ephemeral=True)
 
-    channel_id = 1207653737280307250
+    channel_id = 1207652837463425054
     channel = bot.get_channel(channel_id)
 
     if channel:
@@ -78,21 +78,23 @@ async def join(interaction: discord.Interaction):
     else:
         await interaction.followup.send("لم أجد الروم الصوتي! تأكد من الـ ID.")
 
-@bot.tree.command(name="leave-voice", description="يجعل البوت يخرج من الروم الصوتي")
+@bot.tree.command(name="leave_voice", description="يجعل البوت يخرج من الروم الصوتي")
 @app_commands.checks.has_permissions(administrator=True)
-async def leave(interaction: discord.Interaction):
+async def leave_voice(interaction: discord.Interaction):
     await interaction.response.defer(ephemeral=True)
     if interaction.guild.voice_client:
         await interaction.guild.voice_client.disconnect()
-        await interaction.followup.send("تم إيقاف البوت وخروجه من الروم الصوتي.🛑")
+        await interaction.followup.send("تم إيقاف البوت وخروجه من الروم الصوتي.")
     else:
-        await interaction.followup.send("البوت ليس موجوداً في أي روم صوتي حالياً.❌")
+        await interaction.followup.send("البوت ليس موجوداً في أي روم صوتي حالياً.")
 
-# أمر جديد لمعرفة كم ساعة قضى البوت في الروم بدون أن تضيع أبداً
-@bot.tree.command(name="hours-tracked", description="يعرض عدد الساعات الإجمالية التي قضاها البوت بالروم")
+# تم إضافة شرط الصلاحيات هنا ليكون مخصصاً للمسؤولين فقط
+@bot.tree.command(name="hours", description="يعرض عدد الساعات الإجمالية التي قضاها البوت بالروم")
+@app_commands.checks.has_permissions(administrator=True)
 async def hours_command(interaction: discord.Interaction):
     current_hours = load_hours()
-    await interaction.response.send_message(f"⏱️ إجمالي الساعات التي قضاها البوت في الروم الصوتي: **{round(current_hours, 2)}** ساعة.", ephemeral=False)
+    # جعلت الرد سري (ephemeral=True) لكي يظهر فقط للمسؤول الذي نفذ الأمر
+    await interaction.response.send_message(f"⏱️ إجمالي الساعات التي قضاها البوت في الروم الصوتي: **{round(current_hours, 2)}** ساعة.", ephemeral=True)
 
 @bot.tree.error
 async def on_app_command_error(interaction: discord.Interaction, error: app_commands.AppCommandError):
